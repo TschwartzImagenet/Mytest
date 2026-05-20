@@ -1,5 +1,21 @@
-name: Push to Bitbucket
-  run: |
-    git remote add bitbucket https://${{ secrets.BITBUCKET_USERNAME }}:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_REPO }}.git
-    git push bitbucket --all
-    git push bitbucket --tags
+name: Sync to Bitbucket
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to Bitbucket
+        run: |
+          git remote add bitbucket https://${{ secrets.BITBUCKET_USERNAME }}:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_REPO }}.git
+          git push bitbucket --all
+          git push bitbucket --tags
