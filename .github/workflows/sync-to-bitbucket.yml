@@ -1,0 +1,5 @@
+name: Push to Bitbucket
+  run: |
+    git remote add bitbucket https://${{ secrets.BITBUCKET_USERNAME }}:${{ secrets.BITBUCKET_API_TOKEN }}@bitbucket.org/${{ secrets.BITBUCKET_REPO }}.git
+    git push bitbucket --all
+    git push bitbucket --tags
